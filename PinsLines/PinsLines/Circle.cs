@@ -24,7 +24,5 @@ namespace PinsLines
         public IFigure ChangeFill(int idColor)
             => new Circle(Center, Radius, idColor);
 
-        public static Circle Top20 { get; } = new Circle(new Point(20, 20), 20, -1);
-        public static Circle Top4010 { get; } = new Circle(new Point(40, 80), 10, 1);
     }
 }

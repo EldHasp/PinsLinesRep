@@ -49,6 +49,11 @@ namespace PinsLines
                 Figures.Add(circle);
             }
 
+            /// Задание параметров для гризантальных линий
+            firstLine = First[0].Center.Y + First[0].Size.Height * 2;
+            stepLine = Second[0].Center.Y - First[0].Center.Y - First[0].Size.Height * 4;
+            stepLine /= First.Count;
+
             // Отрисовка соединений
             for (int index = 0; index < PinsLine.FirstLength; index++)
             {
@@ -60,6 +65,8 @@ namespace PinsLines
 
         /// <summary>Индекс текущего цвета</summary>
         private int CurentIndexColor;
+        private double firstLine;
+        private double stepLine;
         private void DrawLine(int firstIndex, int secondIndex)
         {
             Circle first = First[firstIndex];
@@ -67,9 +74,10 @@ namespace PinsLines
 
             First[firstIndex] = (Circle)first.ChangeFill(CurentIndexColor);
             Second[secondIndex] = (Circle)second.ChangeFill(CurentIndexColor);
-            Lines[firstIndex] = new Line(first.Center, second.Center, CurentIndexColor);
+            double medium = firstLine + stepLine * firstIndex;
+            Lines[firstIndex] = new Line(first.Center, second.Center, CurentIndexColor, medium);
 
-            Figures[firstIndex + PinsLine.FirstLength ] = First[firstIndex];
+            Figures[firstIndex + PinsLine.FirstLength] = First[firstIndex];
             Figures[firstIndex] = Lines[firstIndex];
             Figures[PinsLine.FirstLength * 2 + secondIndex] = Second[secondIndex];
 

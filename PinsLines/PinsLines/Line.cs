@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Media;
 
 namespace PinsLines
 {
@@ -11,8 +12,9 @@ namespace PinsLines
         public bool IsEnabled { get; }
         public Point Begin { get; }
         public Point End { get; }
+        public PointCollection Points { get; }
 
-        public Line(Point begin, Point end, int idColor)
+        public Line(Point begin, Point end, int idColor, double medium)
         {
             double xMax, yMax;
             if (begin.X > end.X)
@@ -32,12 +34,16 @@ namespace PinsLines
             Size = new Size(xMax, yMax);
             IdColor = idColor;
             IsEnabled = false;
+            Points = new PointCollection()
+            {
+                Begin,
+                new Point(Begin.X, medium),
+                new Point(End.X, medium),
+                End
+            };
         }
 
-        public IFigure ChangeFill(int idColor)
-            => new Line(Begin, End, idColor);
-
-        public static Line MainLine { get; } = new Line(new Point(), new Point(200, 200), 3);
-        public static Line Connect { get; } = new Line(new Point(20, 20), new Point(40, 80), 5);
+        //public IFigure ChangeColorMedium(int idColor, double medium)
+        //    => new Line(Begin, End, idColor, medium);
     }
 }

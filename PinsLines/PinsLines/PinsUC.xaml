@@ -9,59 +9,44 @@
     <Grid>
         <Grid.Resources>
             <local:IntToColorConverter x:Key="IntToColorConverter"/>
+            <DataTemplate DataType="{x:Type local:Circle}">
+                <Ellipse Stroke="Black" StrokeThickness="1"
+                             Width="{Binding Size.Width}" Height="{Binding Size.Height}">
+                    <Ellipse.Fill>
+                        <MultiBinding Converter="{StaticResource IntToColorConverter}">
+                            <Binding Path="IdColor"/>
+                            <Binding ElementName="pinsUC" Path="SolidColors"/>
+                        </MultiBinding>
+                    </Ellipse.Fill>
+                </Ellipse>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:Line}">
+                <Polyline StrokeThickness="3"
+                            Points="{Binding Points}">
+                    <Polyline.Stroke>
+                        <MultiBinding Converter="{StaticResource IntToColorConverter}">
+                            <Binding Path="IdColor"/>
+                            <Binding ElementName="pinsUC" Path="SolidColors"/>
+                        </MultiBinding>
+                    </Polyline.Stroke>
+                </Polyline>
+            </DataTemplate>
+            <Style TargetType="ListBoxItem">
+                <Setter Property="Canvas.Top" Value="{Binding LeftTop.Y}"/>
+                <Setter Property="Canvas.Left" Value="{Binding LeftTop.X}"/>
+                <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+            </Style>
+            <Style TargetType="ListBox">
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <Canvas/>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </Grid.Resources>
 
-        <ListBox x:Name="listBoxFigures">
-            <d:ListBox.ItemsSource>
-                <x:Array Type="{x:Type local:IFigure}">
-                    <x:Static Member="local:Circle.Top20"/>
-                    <x:Static Member="local:Circle.Top4010"/>
-                    <x:Static Member="local:Line.MainLine"/>
-                    <x:Static Member="local:Line.Connect"/>
-                </x:Array>
-            </d:ListBox.ItemsSource>
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Canvas/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="Canvas.Top" Value="{Binding LeftTop.Y}"/>
-                    <Setter Property="Canvas.Left" Value="{Binding LeftTop.X}"/>
-                    <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-            <ListBox.Resources>
-                <DataTemplate DataType="{x:Type local:Circle}">
-                    <Ellipse Stroke="Black" StrokeThickness="1"
-                             Width="{Binding Size.Width}" Height="{Binding Size.Height}">
-                        <Ellipse.Fill>
-                            <MultiBinding Converter="{StaticResource IntToColorConverter}">
-                                <Binding Path="IdColor"/>
-                                <Binding ElementName="pinsUC" Path="SolidColors"/>
-                            </MultiBinding>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type local:Line}">
-                    <Line StrokeThickness="1"
-                          Width="{Binding Size.Width}" Height="{Binding Size.Height}" 
-                          X1="{Binding Begin.X}"
-                          Y1="{Binding Begin.Y}"
-                          X2="{Binding End.X}" 
-                          Y2="{Binding End.Y}">
-                        <Line.Stroke>
-                            <MultiBinding Converter="{StaticResource IntToColorConverter}">
-                                <Binding Path="IdColor"/>
-                                <Binding ElementName="pinsUC" Path="SolidColors"/>
-                            </MultiBinding>
-                        </Line.Stroke>
-                    </Line>
-                </DataTemplate>
-            </ListBox.Resources>
-        </ListBox>
-        <TextBlock Text="{Binding ItemsSource[1].IdColor, ElementName=listBoxFigures}"
-                   FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ListBox x:Name="listBoxFigures"/>
     </Grid>
 </UserControl>
