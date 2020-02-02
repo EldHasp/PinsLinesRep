@@ -4,9 +4,57 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PinsLines"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1200">
+        mc:Ignorable="d" FontSize="20"
+        Title="MainWindow" Height="900" Width="1200">
     <Grid>
-        <local:PinsUC x:Name="pinsUS"/>
+        <Grid.DataContext>
+            <local:PinsLineVM/>
+        </Grid.DataContext>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <local:PinsUC x:Name="pinsUS" Height="600" Width="1100"
+                      PinsLine="{Binding PinsLine}"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Номера контактов" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center"  />
+                <TextBlock Text="Первый разъём" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="Второй разъём" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding FirstIndex}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" 
+                         Grid.Row="1" MinWidth="50" HorizontalContentAlignment="Center"/>
+                <TextBox Text="{Binding SecondIndex}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" 
+                         Grid.Row="2" MinWidth="50" HorizontalContentAlignment="Center"/>
+            </Grid>
+            <Button Content="Добавить линию" Grid.Column="1" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Padding="20"
+                    Command="{Binding AddLine}"/>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button Content="Удалить линию &#10; по первому контакту" Grid.Column="1" 
+                        VerticalAlignment="Center" HorizontalAlignment="Center" Padding="20"
+                        Command="{Binding RemoveFirstLine}"/>
+                <Button Content="Удалить линию &#10; по второму контакту" Grid.Column="1" Grid.Row="1"
+                        VerticalAlignment="Center" HorizontalAlignment="Center" Padding="20"
+                        Command="{Binding RemoveSecondLine}"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

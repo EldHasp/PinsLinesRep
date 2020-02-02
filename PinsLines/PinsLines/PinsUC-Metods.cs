@@ -6,8 +6,8 @@ namespace PinsLines
 {
     public partial class PinsUC
     {
-        /// <summary>коллекция ысех фигур</summary>
-        /// <remarks>Вначале списка содержатся невыбираемые фигуры (Линии), потом первый (верхний) разъйм, в конце - второй</remarks>
+        /// <summary>Коллекция всех фигур</summary>
+        /// <remarks>Вначале списка содержатся невыбираемые фигуры (Линии), потом первый (верхний) разъём, в конце - второй</remarks>
         private readonly ObservableCollection<IFigure> Figures = new ObservableCollection<IFigure>();
         /// <summary>Список фигур первого разъёма</summary>
         private readonly List<Circle> First = new List<Circle>();
@@ -16,8 +16,7 @@ namespace PinsLines
         /// <summary>Список фигур соединений</summary>
         private readonly List<Line> Lines = new List<Line>();
 
-
-        /// <summary>Полная перерисовка соединения</summary>
+        /// <summary>Полная перерисовка соединения с переинициавлизацией коллекций</summary>
         private void InitCollection()
         {
             Figures.Clear();
@@ -29,7 +28,7 @@ namespace PinsLines
             if (PinsLine == null || PinsLine.FirstLength <= 0 || PinsLine.SecondLength <= 0)
                 return;
 
-            // Заполнение коллекци фигур
+            // Заполнение коллекции фигур
             for (int index = 0; index < PinsLine.FirstLength; index++)
             {
                 Line line = new Line();
@@ -49,7 +48,7 @@ namespace PinsLines
                 Figures.Add(circle);
             }
 
-            /// Задание параметров для гризантальных линий
+            /// Задание параметров для горизонтальных линий
             firstLine = First[0].Center.Y + First[0].Size.Height * 2;
             stepLine = Second[0].Center.Y - First[0].Center.Y - First[0].Size.Height * 4;
             stepLine /= First.Count;
@@ -65,8 +64,15 @@ namespace PinsLines
 
         /// <summary>Индекс текущего цвета</summary>
         private int CurentIndexColor;
+        /// <summary>Смещение первой линиии</summary>
         private double firstLine;
+        /// <summary>Шаг между линиями</summary>
         private double stepLine;
+        /// <summary>Рисование линии</summary>
+        /// <param name="firstIndex">Индекс первого разъёма</param>
+        /// <param name="secondIndex">Индекс первого разъёма</param>
+        /// <remarks>Метод задаёт текущий индекс цвета указанным
+        /// контактам и параметры для отрисовки линии между ними</remarks>
         private void DrawLine(int firstIndex, int secondIndex)
         {
             Circle first = First[firstIndex];
@@ -84,5 +90,23 @@ namespace PinsLines
             CurentIndexColor++;
         }
 
+        /// <summary>Очистка линии</summary>
+        /// <param name="firstIndex">Индекс первого разъёма</param>
+        /// <param name="secondIndex">Индекс первого разъёма</param>
+        /// <remarks>Метод задаёт индекс цвета -1 указанным
+        /// контактам и стирает линию отходящую от контакта первого разъёма</remarks>
+        private void ClearLine(int firstIndex, int secondIndex)
+        {
+            Circle first = First[firstIndex];
+            Circle second = Second[secondIndex];
+
+            First[firstIndex] = (Circle)first.ChangeFill(-1);
+            Second[secondIndex] = (Circle)second.ChangeFill(-1);
+            Lines[firstIndex] = new Line();
+
+            Figures[firstIndex + PinsLine.FirstLength] = First[firstIndex];
+            Figures[firstIndex] = Lines[firstIndex];
+            Figures[PinsLine.FirstLength * 2 + secondIndex] = Second[secondIndex];
+        }
     }
 }

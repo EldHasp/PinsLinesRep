@@ -70,13 +70,20 @@ namespace PinsLines
         }
 
         /// <summary>Метод-обработчик для события изменения в данных</summary>
-        /// <param name="sender"></param>
-        /// <param name="firstPin"></param>
-        /// <param name="secondPin"></param>
-        /// <param name="isRemove"></param>
+        /// <param name="sender">Источник события</param>
+        /// <param name="firstPin">Контакт первого разъёма</param>
+        /// <param name="secondPin">Контакт второго разъёма</param>
+        /// <param name="isRemove">Флаг удаления линии</param>
         private void PinsLine_PinsLineChangedEvent(object sender, int firstPin, int secondPin, bool isRemove)
         {
-            throw new NotImplementedException();
+            if (sender != PinsLine)
+                throw new ArgumentException($"Источник события должен быть привязанный к свойству {nameof(PinsLine)} объект", nameof(sender));
+
+            if (isRemove)
+                ClearLine(firstPin, secondPin);
+            else
+                DrawLine(firstPin, secondPin);
+
         }
     }
 }
