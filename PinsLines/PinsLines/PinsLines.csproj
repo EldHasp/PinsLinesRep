@@ -60,8 +60,13 @@
     <Compile Include="IntToColorConverter.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="PinsLine.cs" />
-    <Compile Include="PinsUC-Metods.cs" />
-    <Compile Include="PinsUC.xaml.cs" />
+    <Compile Include="PinsLineVM.cs" />
+    <Compile Include="PinsUC-Metods.cs">
+      <DependentUpon>PinsUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PinsUC.xaml.cs">
+      <DependentUpon>PinsUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RelayCommand.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

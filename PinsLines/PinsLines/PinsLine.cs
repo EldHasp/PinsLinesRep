@@ -48,9 +48,9 @@ namespace PinsLines
                 LinesArray[i] = -1;
         }
 
-        /// <summary>Builder неизменяемого массива линий</summary>
+        /// <summary>Массив линий</summary>
         private readonly int[] LinesArray;
-        /// <summary>Неизменяемый массива линий. 
+        /// <summary>Неизменяемый массив линий. 
         /// Индекс элемента - номер контакта первого разъёма.
         /// Значение элемента - номер контакта второго разъёма</summary>
         public ReadOnlyCollection<int> Lines { get; }

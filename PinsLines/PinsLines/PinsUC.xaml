@@ -10,15 +10,19 @@
         <Grid.Resources>
             <local:IntToColorConverter x:Key="IntToColorConverter"/>
             <DataTemplate DataType="{x:Type local:Circle}">
-                <Ellipse Stroke="Black" StrokeThickness="1"
+                <Grid>
+                    <Ellipse Stroke="Black" StrokeThickness="1"
                              Width="{Binding Size.Width}" Height="{Binding Size.Height}">
-                    <Ellipse.Fill>
-                        <MultiBinding Converter="{StaticResource IntToColorConverter}">
-                            <Binding Path="IdColor"/>
-                            <Binding ElementName="pinsUC" Path="SolidColors"/>
-                        </MultiBinding>
-                    </Ellipse.Fill>
-                </Ellipse>
+                        <Ellipse.Fill>
+                            <MultiBinding Converter="{StaticResource IntToColorConverter}">
+                                <Binding Path="IdColor"/>
+                                <Binding ElementName="pinsUC" Path="SolidColors"/>
+                            </MultiBinding>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <TextBlock Text="{Binding Number}" 
+                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Grid>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:Line}">
                 <Polyline StrokeThickness="3"

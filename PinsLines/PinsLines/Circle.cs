@@ -9,9 +9,10 @@ namespace PinsLines
         public Size Size { get; }
         public Point Center { get; }
         public double Radius { get; }
-        public bool IsEnabled {get;}
+        public bool IsEnabled { get; }
+        public int Number { get; }
 
-        public Circle(Point center, double radius, int idColor)
+        public Circle(Point center, double radius, int number, int idColor)
         {
             Center = center;
             Radius = radius < 0 ? -radius : radius;
@@ -19,10 +20,11 @@ namespace PinsLines
             Size = new Size(Radius * 2, Radius * 2);
             IdColor = idColor;
             IsEnabled = true;
+            Number = number;
         }
 
         public IFigure ChangeFill(int idColor)
-            => new Circle(Center, Radius, idColor);
+            => new Circle(Center, Radius, Number, idColor);
 
     }
 }

@@ -16,6 +16,15 @@ namespace PinsLines
         /// <summary>Список фигур соединений</summary>
         private readonly List<Line> Lines = new List<Line>();
 
+        #region Константы 
+        /// <summary>Шаг между контактами</summary>
+        const double StepPin = 60;
+        /// <summary>Радиус контактов</summary>
+        const double RadiusPin = 20;
+        /// <summary>Расстояние между разъёмами</summary>
+        const double DistancePins = 400;
+        #endregion 
+
         /// <summary>Полная перерисовка соединения с переинициавлизацией коллекций</summary>
         private void InitCollection()
         {
@@ -24,6 +33,26 @@ namespace PinsLines
             Second.Clear();
             Lines.Clear();
             CurentIndexColor = 0;
+
+            double offsetFirst = 0;
+            double offsetSecond = 0;
+
+            double offset(int min, int max)
+            {
+                double offs = StepPin / 2.0;
+
+                if (min == max)
+                    return offs;
+
+                if (min > max)
+                    (min, max) = (max, min);
+
+                return offs + ((max - min) / 2) * StepPin;
+            }
+            if (PinsLine.FirstLength < PinsLine.SecondLength)
+                offsetFirst = offset(PinsLine.FirstLength, PinsLine.SecondLength);
+            else
+                offsetSecond = offset(PinsLine.FirstLength, PinsLine.SecondLength);
 
             if (PinsLine == null || PinsLine.FirstLength <= 0 || PinsLine.SecondLength <= 0)
                 return;
@@ -37,13 +66,13 @@ namespace PinsLines
             }
             for (int index = 0; index < PinsLine.FirstLength; index++)
             {
-                Circle circle = new Circle(new Point((index + 1) * 60, 60), 20, -1);
+                Circle circle = new Circle(new Point(offsetFirst + (index + 1) * StepPin, StepPin), RadiusPin, index + 1, -1);
                 First.Add(circle);
                 Figures.Add(circle);
             }
             for (int index = 0; index < PinsLine.SecondLength; index++)
             {
-                Circle circle = new Circle(new Point((index + 1) * 60, 400), 20, -1);
+                Circle circle = new Circle(new Point(offsetSecond + (index + 1) * StepPin, DistancePins), RadiusPin, index + 1, -1);
                 Second.Add(circle);
                 Figures.Add(circle);
             }
