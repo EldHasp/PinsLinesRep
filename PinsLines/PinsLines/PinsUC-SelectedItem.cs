@@ -23,21 +23,18 @@ namespace PinsLines
             /// Установка флага
             IsSelectionChanged = true;
 
-            /// Переменные для индекса и выделенного элемента
-            int index;
-            Circle? select = listBoxFigures.SelectedItem as Circle?;
-
             /// Если нет выделения
-            if (listBoxFigures.SelectedItem == default)
+            if (((ListBox)sender).SelectedItem == default)
                 SelectClear();
 
             /// Если выделен контакт первого разъёма
-            else if ((index = First.IndexOf(select.Value)) >= 0)
-                SelectFirst(index);
+            else if (sender == listBoxFirst)
+                SelectFirst(First.IndexOf((Circle)listBoxFirst.SelectedItem));
 
             /// Если выделен контакт второго разъёма
-            else if ((index = Second.IndexOf(select.Value)) >= 0)
-                SelectSecond(index);
+            else if (sender == listBoxSecond)
+                SelectSecond(Second.IndexOf((Circle)listBoxSecond.SelectedItem));
+
 
             /// Если выделено непонятно что
             else
@@ -63,9 +60,7 @@ namespace PinsLines
                     SelectClearSecond();
                 PinsLine.RemoveLineSecond(index);
                 SelectedSecondIndex = index;
-                Figures[PinsLine.FirstLength * 2 + SelectedSecondIndex]
-                    = Second[SelectedSecondIndex]
-                    = Second[SelectedSecondIndex].ChangeColor(CurentIndexColor);
+                Second[SelectedSecondIndex].SetIdColor(CurentIndexColor);
             }
         }
 
@@ -85,10 +80,7 @@ namespace PinsLines
                     SelectClearFirst();
                 PinsLine.RemoveLineFirst(index);
                 SelectedFirstIndex = index;
-                Figures[PinsLine.FirstLength + SelectedFirstIndex]
-                    = First[SelectedFirstIndex]
-                    //= SelectedFirst
-                    = First[SelectedFirstIndex].ChangeColor(CurentIndexColor);
+                First[SelectedFirstIndex].SetIdColor(CurentIndexColor);
             }
         }
 
@@ -104,8 +96,7 @@ namespace PinsLines
         {
             if (SelectedFirstIndex >= 0)
             {
-                Figures[PinsLine.FirstLength + SelectedFirstIndex] =
-                      First[SelectedFirstIndex] = First[SelectedFirstIndex].ChangeColor(-1);
+                First[SelectedFirstIndex].SetIdColor(-1);
                 SelectedFirstIndex = -1;
             }
 
@@ -116,8 +107,7 @@ namespace PinsLines
         {
             if (SelectedSecondIndex >= 0)
             {
-                Figures[PinsLine.FirstLength * 2 + SelectedSecondIndex]
-                     = Second[SelectedSecondIndex] = Second[SelectedSecondIndex].ChangeColor(-1);
+                Second[SelectedSecondIndex].SetIdColor(-1);
                 SelectedSecondIndex = -1;
             }
         }

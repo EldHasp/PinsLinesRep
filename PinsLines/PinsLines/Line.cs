@@ -3,37 +3,26 @@ using System.Windows.Media;
 
 namespace PinsLines
 {
-    public struct Line : IFigure
+    public class Line : Figure
     {
-        public int IdColor { get; }
-        public Point LeftTop { get; }
-        public Size Size { get; }
-        public Point RightBottom { get; }
-        public bool IsEnabled { get; }
         public Point Begin { get; }
-        public Point End { get; }
-        public PointCollection Points { get; }
+        public Point End { get; private set; }
+        public PointCollection Points { get; private set; }
 
-        public Line(Point begin, Point end, int idColor, double medium)
+        public Line(Point begin)
+            : base
+            (
+                new Point(),
+                new Size(),
+                false
+            )
         {
-            double xMax, yMax;
-            if (begin.X > end.X)
-                xMax = begin.X;
-            else
-                xMax = end.X;
-
-            if (begin.Y > end.Y)
-                yMax = begin.Y;
-            else
-                yMax = end.Y;
-
             Begin = begin;
+        }
+
+        public void SetEnd(Point end, double medium, int idColor)
+        {
             End = end;
-            LeftTop = new Point(0, 0);
-            RightBottom = new Point(xMax, yMax);
-            Size = new Size(xMax, yMax);
-            IdColor = idColor;
-            IsEnabled = false;
             Points = new PointCollection()
             {
                 Begin,
@@ -41,9 +30,9 @@ namespace PinsLines
                 new Point(End.X, medium),
                 End
             };
+            SetIdColor(idColor);
+            OnPropertyChanged(nameof(End));
+            OnPropertyChanged(nameof(Points));
         }
-
-        //public IFigure ChangeColorMedium(int idColor, double medium)
-        //    => new Line(Begin, End, idColor, medium);
     }
 }

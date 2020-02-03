@@ -13,7 +13,10 @@ namespace PinsLines
         public PinsUC()
         {
             InitializeComponent();
-            listBoxFigures.ItemsSource = Figures;
+
+            listBoxFirst.ItemsSource = First;
+            listBoxSecond.ItemsSource = Second;
+            listBoxLines.ItemsSource = Lines;
         }
 
         /// <summary>Массив цветов успользуемый для отрисовки элементов</summary>
