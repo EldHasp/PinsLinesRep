@@ -25,7 +25,7 @@ namespace PinsLines
         const double DistancePins = 400;
         #endregion 
 
-        /// <summary>Полная перерисовка соединения с переинициавлизацией коллекций</summary>
+        /// <summary>Полная перерисовка соединения с переинициализацией коллекций</summary>
         private void InitCollection()
         {
             Figures.Clear();
@@ -33,6 +33,8 @@ namespace PinsLines
             Second.Clear();
             Lines.Clear();
             CurentIndexColor = 0;
+            SelectedFirstIndex = -1;
+            SelectedSecondIndex = -1;
 
             double offsetFirst = 0;
             double offsetSecond = 0;
@@ -107,14 +109,17 @@ namespace PinsLines
             Circle first = First[firstIndex];
             Circle second = Second[secondIndex];
 
-            First[firstIndex] = (Circle)first.ChangeFill(CurentIndexColor);
-            Second[secondIndex] = (Circle)second.ChangeFill(CurentIndexColor);
+            Figures[firstIndex + PinsLine.FirstLength]
+                = First[firstIndex] = first.ChangeColor(CurentIndexColor);
+            Figures[PinsLine.FirstLength * 2 + secondIndex]
+                = Second[secondIndex] = second.ChangeColor(CurentIndexColor);
             double medium = firstLine + stepLine * firstIndex;
-            Lines[firstIndex] = new Line(first.Center, second.Center, CurentIndexColor, medium);
+            Figures[firstIndex]
+                = Lines[firstIndex] = new Line(first.Center, second.Center, CurentIndexColor, medium);
 
-            Figures[firstIndex + PinsLine.FirstLength] = First[firstIndex];
-            Figures[firstIndex] = Lines[firstIndex];
-            Figures[PinsLine.FirstLength * 2 + secondIndex] = Second[secondIndex];
+            //First[firstIndex];
+            //Lines[firstIndex];
+            //Second[secondIndex];
 
             CurentIndexColor++;
         }
@@ -129,13 +134,16 @@ namespace PinsLines
             Circle first = First[firstIndex];
             Circle second = Second[secondIndex];
 
-            First[firstIndex] = (Circle)first.ChangeFill(-1);
-            Second[secondIndex] = (Circle)second.ChangeFill(-1);
-            Lines[firstIndex] = new Line();
+            Figures[firstIndex + PinsLine.FirstLength]
+                = First[firstIndex] = first.ChangeColor(-1);
+            Figures[PinsLine.FirstLength * 2 + secondIndex]
+                = Second[secondIndex] = second.ChangeColor(-1);
+            Figures[firstIndex]
+                = Lines[firstIndex] = new Line();
 
-            Figures[firstIndex + PinsLine.FirstLength] = First[firstIndex];
-            Figures[firstIndex] = Lines[firstIndex];
-            Figures[PinsLine.FirstLength * 2 + secondIndex] = Second[secondIndex];
+            //First[firstIndex];
+            //Lines[firstIndex];
+            //Second[secondIndex];
         }
     }
 }

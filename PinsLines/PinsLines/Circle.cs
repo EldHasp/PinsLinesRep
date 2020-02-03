@@ -23,7 +23,7 @@ namespace PinsLines
             Number = number;
         }
 
-        public IFigure ChangeFill(int idColor)
+        public Circle ChangeColor(int idColor)
             => new Circle(Center, Radius, Number, idColor);
 
     }

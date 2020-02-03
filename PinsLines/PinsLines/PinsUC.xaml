@@ -51,6 +51,7 @@
             </Style>
         </Grid.Resources>
 
-        <ListBox x:Name="listBoxFigures"/>
+        <ListBox x:Name="listBoxFigures"
+                 SelectionChanged="listBoxFigures_SelectionChanged"/>
     </Grid>
 </UserControl>

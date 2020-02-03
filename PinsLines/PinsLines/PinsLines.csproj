@@ -64,6 +64,9 @@
     <Compile Include="PinsUC-Metods.cs">
       <DependentUpon>PinsUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PinsUC-SelectedItem.cs">
+      <DependentUpon>PinsUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PinsUC.xaml.cs">
       <DependentUpon>PinsUC.xaml</DependentUpon>
     </Compile>
